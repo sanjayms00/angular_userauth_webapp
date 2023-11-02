@@ -1,26 +1,41 @@
+require('dotenv').config();
 const express = require('express')
 const adminRoute = express.Router();
 const authHelper = require('../helpers/authHelper')
 const clientHelper = require('../helpers/clientHelper')
-
+const authMiddleware = require('../middleware/authMiddleware')
 
 adminRoute.get('/',(req, res)=>{
     res.send('admin')
 })
 
-adminRoute.post('/loginAuth', async (req, res)=>{
+adminRoute.post('/login_auth', async (req, res)=>{
     try {
+       
         const {email, password} = req.body;
-        const adminData = await authHelper.findAdmin(email, password);
-        if(adminData.length !== 0){
-            res.json({status: 'success', message: "admin is confirmed"});
+        
+        if(!email || !password){
+            throw new Error('insufficient data')
+        }
+        const response = await authHelper.findAdmin(email, password);
+        if(response.length !== 0){
+            let jwtSecretKey = process.env.JWT_SECRET_KEY_ADMIN;
+            
+            const token = await authHelper.generateToken(jwtSecretKey, response[0]._id)
+            if(!token){
+                throw new Error('Token is not found')
+            }
+            console.log("the response", response, token)
+            res.status(200).json({status : 'success', response, token})
         }else{
             throw new Error("admin not found")
         }
+        
     } 
     catch (error) 
     {
-        res.json({status: 'error', message: error.message});
+        console.log(error.message)
+        res.status(500).json(error);
     }
 })
 
@@ -41,18 +56,19 @@ adminRoute.get('/get-users', async (req, res)=>{
     try {
         const clientData = await clientHelper.getUsers() 
         if(!clientData){ 
-            throw new Error('failedto get the user data')
+            throw new Error('failed to get the user data')
         }
-        res.send(clientData)
+        res.status(200).send(clientData)
     } 
     catch (error) {
-        res.send(error.message);
+        res.status(500).send(error.message);
     }
 })
 
-adminRoute.delete('/delete-users/:id', async (req, res)=>{
+adminRoute.delete('/delete-user/:id', async (req, res)=>{
     try {
         let { id } = req.params
+        console.log("id is", id)
         if(!id){
             throw new Error('id is not present')
         }
@@ -60,14 +76,14 @@ adminRoute.delete('/delete-users/:id', async (req, res)=>{
         if(!status){ 
             throw new Error('failed to delete the user data')
         }
-        res.json({status: "success", message: "deleted successfully"})
+        res.status(200).json({status: "success", message: "deleted successfully"})
     } 
     catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 })
 
-adminRoute.get('/edit-users/:id', async (req, res)=>{
+adminRoute.get('/edit-user/:id', async (req, res)=>{
     try {
         let { id } = req.params
         if(!id){
@@ -77,25 +93,30 @@ adminRoute.get('/edit-users/:id', async (req, res)=>{
         if(userData.length < 1){ 
             throw new Error('no data found')
         }
-        res.send(userData)
+        res.status(200).send(userData)
     } 
     catch (error) {
-        res.json(error.message);
+        console.log(error.message)
+        res.status(500).send(error.message);
     }
 })
 
-
-adminRoute.post('/update-users', async (req, res)=>{
+adminRoute.put('/update-user/:id', async (req, res)=>{
     try {
-        console.log(req.body)
-        const status = await clientHelper.updateUsers(req.body) 
-        if(!status){ 
+        const id = req.params.id
+        if(!id){
+            throw new Error('id is not present')
+        }
+        const data = await clientHelper.updateUsers(id, req.body) 
+        if(!data){ 
             throw new Error('failed to update the user data')
         }
-        res.json({status: "success", message: "updated successfully"})
+        console.log("updated data :", data)
+        res.status(200).json(data)
     } 
     catch (error) {
-        res.json(error.message);
+        console.log(error.message)
+        res.status(500).json(error.message);
     }
 })  
 

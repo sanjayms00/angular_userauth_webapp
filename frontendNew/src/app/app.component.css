@@ -1,0 +1,13 @@
+.spacer {
+    flex: 1; /* Expands to take available space */
+  }
+  
+  .right-options {
+    display: flex;
+    align-items: center; /* Vertically align the right options */
+  }
+  
+  .right-options button {
+    margin-left: 16px; /* Add spacing between right options */
+  }
+  

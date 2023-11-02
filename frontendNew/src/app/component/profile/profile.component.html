@@ -1,0 +1,30 @@
+<div class="profile-container">
+    <mat-card>
+      <mat-card-header>
+        <div class="user-avatar">
+          <!-- Profile image displayed here -->
+          <div class="img">
+            <img [src]="profileImage" alt="Profile Image" class="profile-image" />
+          </div>
+        <!-- <form [formGroup]="profileForm" (ngSubmit)="onImageUpload()">
+            <input type="file" accept="image/*" formControlName="profileImage" (change)="onImageUpload()" />
+            <button mat-raised-button color="primary" type="submit">upload</button>
+        </form> -->
+        <form (ngSubmit)="onImageUpload()">
+          <input type="file" name="file" (change)="onFileSelected($event)" />
+          <button type="submit" (click)="onImageUpload()">Upload</button>
+        </form>
+
+
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-card-title>{{ profileName }}</mat-card-title>
+        <!-- Profile details go here -->
+        <p>Email: {{ profileEmail }}</p>
+        <p>Phone: {{ profilemobile }}</p>
+        <!-- Add more profile details as needed -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

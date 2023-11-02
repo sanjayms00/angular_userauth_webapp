@@ -2,7 +2,7 @@ const User = require('../model/userModel')
 const mongoose = require('mongoose')
 
 const getUsers = async () =>{
-    return await User.find()
+    return await User.find({}, {password : 0})
 }
 
 const deleteUsers = async (id) => {
@@ -15,16 +15,16 @@ const editUsers = async (id) => {
     return await User.find({_id : id})
 } 
 
-const updateUsers = async ({_id, name, mobile, email}) => {
-    if(!_id || !name || !mobile || !email){
+const updateUsers = async (id, {userName, mobile, email}) => {
+    if(!id || !userName || !mobile || !email){
         return false
     }
-    id = new mongoose.Types.ObjectId(_id)
+    id = new mongoose.Types.ObjectId(id)
     return await User.updateOne(
         {_id : id}, 
         {
             $set : {
-                name, mobile, email
+                userName, mobile, email
             }
         }
     )

@@ -1,0 +1,46 @@
+/* .mdc-card {
+    margin: 2%;
+}
+
+button {
+    margin: 2%;
+} */
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  .custom-table thead {
+    background-color: #f0f0f0;
+  }
+  
+  .custom-table th, .custom-table td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  
+  .custom-table th {
+    font-weight: bold;
+  }
+  
+  .custom-table img.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+  }
+  
+  .custom-table .text-heading {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .custom-table .btn {
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  

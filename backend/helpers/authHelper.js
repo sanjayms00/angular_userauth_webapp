@@ -2,10 +2,11 @@ const Admin = require('../model/adminModel')
 const  User = require('../model/userModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const { Mongoose, default: mongoose } = require('mongoose')
 
 
 const findAdmin = async (email, password) =>{
-    return await admin.find({email, password})
+    return await Admin.find({email, password}, {password : 0, __v : 0})
 }
 
 const saveAdmin = async ({email, userName, password}) => {
@@ -22,7 +23,45 @@ const saveAdmin = async ({email, userName, password}) => {
 }
 
 const checkUser = async (email, password) => {
-    return await User.find({email, password})
+    const data =  await User.find({email})
+    const hashedPassword = data[0].password
+    
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(password, hashedPassword, (err, isMatch) => {
+          if (err) {
+            reject(err);
+          }
+          if (isMatch) {
+            resolve({
+                _id: data[0]._id,
+                userName: data[0].userName,
+                mobile: data[0].mobile,
+                email: data[0].email
+              });
+          } else {
+            resolve(false);
+          }
+        });
+      });
+
+}
+
+
+
+
+const fileUpload = async (id, image) => {
+    if(!id || !image){
+        return false
+    }else{
+        return await User.updateOne(
+            { _id : new mongoose.Types.ObjectId(id) }, 
+            {
+                $set : {
+                    image : 'http://localhost:3000/images/uploads/'+image
+                }
+            }    
+        )
+    }
 }
 
 const generateToken = async (secret, id) => {
@@ -56,5 +95,6 @@ module.exports = {
     saveAdmin,
     checkUser,
     generateToken,
-    encryptPassword
+    encryptPassword,
+    fileUpload
 }

@@ -1,0 +1,18 @@
+<mat-toolbar color="primary" *ngIf="ismenuvisible && !isadmin">
+    <span>My Website</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="">Home</button>
+    <button mat-button routerLink="/login" [hidden]="hide">Login</button>
+    <button mat-button routerLink="/register" [hidden]="hide">Register</button>
+    <button mat-button routerLink="/profile" [hidden]="!hide">Profile</button>
+    <button mat-button (click)="logout()" [hidden]="!hide">Logout</button>
+</mat-toolbar>
+
+<mat-toolbar color="primary" *ngIf="ismenuvisible && isadmin">
+    <span>My admin</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/admin/users" [hidden]="!Adminhide">Users</button>
+    <button mat-button (click)="logoutAdmin()">Logout</button>
+</mat-toolbar>
+  
+<router-outlet></router-outlet>

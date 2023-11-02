@@ -1,0 +1,195 @@
+<!-- <mat-card style="min-height: 500px;">
+    <mat-card-header>
+        <h1>Users List</h1>
+        
+       
+        <mat-form-field>
+          <input matInput placeholder="Search users" name="searchData" [(ngModel)]="searchData">
+        </mat-form-field>
+      
+        <button (click)="addUser()" mat-raised-button color="primary" style="margin-left: 10px;">Add User</button>
+      </mat-card-header>
+      
+    <mat-card-content>
+        <table mat-table [dataSource]="userData" class="mat-elevation-z8">
+            <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef> Index </th>
+                <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
+              </ng-container>
+            <ng-container matColumnDef="userName">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+            <ng-container matColumnDef="mobile">
+                <th mat-header-cell *matHeaderCellDef> mobile </th>
+                <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let element">
+                    <button [routerLink]="'/admin/edit/'+element._id" mat-raised-button color="primary">Edit</button>
+                    <button (click)="deleteUserData(element._id)" mat-raised-button color="accent">Delete</button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColums"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColums;"></tr>
+        </table>
+    </mat-card-content>
+</mat-card> -->
+
+<!-- 
+<main class="py-6 bg-surface-secondary">
+    <div class="container-fluid">
+        <div class="row g-6 mb-6">
+            <div class="card shadow border-0 mb-4">
+                <div class="row">
+                    <div class="col-xl-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">User</h5>
+                        </div>
+                    </div>
+                    <div class="col-xl-8">
+                        <div class="card-header">
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search User" name="searchData" [(ngModel)]="searchData">
+                                <button class="btn btn-outline-primary" type="submit" routerLink="/admin/create-user">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow border-0 mb-7">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card-header">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-nowrap text-center">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Mobile</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let user of userData | searchPipe: searchData; let i = index">
+                                            <td>
+                                                {{ i+1 }}
+                                            </td>
+                                            <td>
+                                                <img alt=""
+                                                    src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                                                    class="avatar avatar-sm rounded-circle me-2">
+                                                <a class="text-heading font-semibold" href="#">
+                                                    {{ user.userName }}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ user.mobile }}
+                                            </td>
+                                            <td>
+                                                {{ user.email }}
+                                            </td>
+                                            <td class="text-end">
+                                                <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" [routerLink]="['edit', user._id]">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+  -->
+
+
+
+  <main class="py-6 bg-surface-secondary">
+    <div class="container-fluid">
+      <div class="row g-6 mb-6">
+        <div class="card shadow border-0 mb-4">
+          <div class="row">
+            <div class="col-xl-4">
+              <div class="card-header">
+                <h1 class="mb-0">User List</h1>
+              </div>
+            </div>
+            <div class="col-xl-8">
+              <div class="card-header">
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search User" name="searchData" [(ngModel)]="searchData">
+                  <button class="btn btn-outline-primary" type="submit" (click)="addUser()" >Create</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="card shadow border-0 mb-7">
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="card-header">
+                <div class="table-responsive">
+                  <table class="table table-hover table-nowrap text-center custom-table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let user of userData | searchPipe: searchData; let i = index">
+                        <td>
+                          {{ i+1 }}
+                        </td>
+                        <td>
+                          <img alt="" src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" class="avatar avatar-sm rounded-circle me-2">
+                          <a class="text-heading font-semibold" href="#">
+                            {{ user.userName }}
+                          </a>
+                        </td>
+                        <td>
+                          {{ user.mobile }}
+                        </td>
+                        <td>
+                          {{ user.email }}
+                        </td>
+                        <td class="text-end">
+                          <button type="button" [routerLink]="'/admin/users/edit/'+user._id" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                           edit
+                          </button>
+                          <button type="button" (click)="user._id && deleteUserData(user._id)" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                            delete
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
